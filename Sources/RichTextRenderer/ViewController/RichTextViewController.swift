@@ -52,7 +52,7 @@ open class RichTextViewController: UIViewController, NSLayoutManagerDelegate {
         the `layoutManager:didCompleteLayoutForTextContainer:atEnd:` to detect a proper moment to layout subviews
         on the text view. It works very well with slow and quick multiple-steps orientation change operations.
      */
-    private var expectedTextViewSizeAfterOrientationChange: CGSize?
+    private var previousTextViewWidth: CGFloat?
 
     public init(
         renderer: RichTextDocumentRenderer,
@@ -152,7 +152,8 @@ open class RichTextViewController: UIViewController, NSLayoutManagerDelegate {
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         // Expect text view to be of the passed in `size`.
-        expectedTextViewSizeAfterOrientationChange = size
+        previousTextViewWidth = textView.bounds.size.width
+        debugPrint("viewWillTransition \(previousTextViewWidth)")
 
         invalidateLayout()
     }
@@ -169,13 +170,15 @@ open class RichTextViewController: UIViewController, NSLayoutManagerDelegate {
 
         // When expected size is specified the text view size have to match. Otherwise that is not a proper moment
         // for laying out the content while changing orientation.
-        if let expectedSize = expectedTextViewSizeAfterOrientationChange, expectedSize != textView.bounds.size {
+        if let previousWidth = previousTextViewWidth, previousWidth == textView.bounds.size.width {
             return
         }
 
+        debugPrint("viewWillTransition \(previousTextViewWidth) - \(textView.bounds.size.width)")
+        
         layoutElementsOnTextView(containerSize: textView.bounds.size)
 
-        expectedTextViewSizeAfterOrientationChange = nil
+        previousTextViewWidth = nil
     }
 
     private func layoutElementsOnTextView(containerSize: CGSize) {
