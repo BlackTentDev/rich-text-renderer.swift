@@ -97,6 +97,23 @@ open class RichTextViewController: UIViewController, NSLayoutManagerDelegate {
 
         textContainer.size.height = .greatestFiniteMagnitude
     }
+    
+    private func setContainer() {
+        textContainer = ConcreteTextContainer(size: view.bounds.size)
+        textContainer.add(provider: BlockLineFragmentProvider(
+            blockQuoteConfiguration: renderer.configuration.blockQuote)
+        )
+
+        textContainer.widthTracksTextView = true
+        textContainer.heightTracksTextView = true
+        
+        layoutManager.addTextContainer(textContainer)
+        layoutManager.delegate = self
+
+        setupTextView()
+
+        textContainer.size.height = .greatestFiniteMagnitude
+    }
 
     private func setupTextView() {
         textView = UITextView(frame: view.bounds, textContainer: textContainer)
@@ -175,7 +192,7 @@ open class RichTextViewController: UIViewController, NSLayoutManagerDelegate {
         }
 
         if previousTextViewWidth != nil {
-            setupTextView()
+            setContainer()
         }
         
         debugPrint("viewWillTransition \(previousTextViewWidth) - \(textView.bounds.size)")
