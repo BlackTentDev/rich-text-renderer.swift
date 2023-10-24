@@ -111,7 +111,7 @@ open class RichTextViewController: UIViewController, NSLayoutManagerDelegate {
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         textView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 
-        textView.isScrollEnabled = true
+        textView.isScrollEnabled = false
         textView.contentSize.height = .greatestFiniteMagnitude
         textView.isEditable = false
     }
