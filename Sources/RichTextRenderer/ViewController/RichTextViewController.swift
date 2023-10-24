@@ -174,7 +174,7 @@ open class RichTextViewController: UIViewController, NSLayoutManagerDelegate {
             return
         }
 
-        debugPrint("viewWillTransition \(previousTextViewWidth) - \(textView.bounds.size.width)")
+        debugPrint("viewWillTransition \(previousTextViewWidth) - \(textView.bounds.size)")
         
         layoutElementsOnTextView(containerSize: textView.bounds.size)
 
