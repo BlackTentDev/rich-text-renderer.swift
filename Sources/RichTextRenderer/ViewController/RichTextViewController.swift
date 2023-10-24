@@ -111,7 +111,7 @@ open class RichTextViewController: UIViewController, NSLayoutManagerDelegate {
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         textView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 
-        textView.isScrollEnabled = false
+        textView.isScrollEnabled = true
         textView.contentSize.height = .greatestFiniteMagnitude
         textView.isEditable = false
     }
@@ -174,6 +174,10 @@ open class RichTextViewController: UIViewController, NSLayoutManagerDelegate {
             return
         }
 
+        if previousTextViewWidth != nil {
+            setupTextView()
+        }
+        
         debugPrint("viewWillTransition \(previousTextViewWidth) - \(textView.bounds.size)")
         
         layoutElementsOnTextView(containerSize: textView.bounds.size)
